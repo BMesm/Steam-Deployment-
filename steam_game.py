@@ -1,30 +1,18 @@
-import os, json
+import os
+import json
 import plotly
 import plotly.express as px
-import pandas as pd
-from model import db, app, SteamGame
+from model import app
+from loading_data import data_load
 from flask import render_template
 
-#----------------------------- Loading data ----------------------------
-with open("database.json","r") as jsonFile:
-    data = json.load(jsonFile)
-df = pd.DataFrame(data)
-df = df.T
-df = df.reset_index().drop('index', axis=1)
-df = df[['name','is_free','num_reviews','review_score']]
-
-for n in range(len(df)):
-    name, is_free, num_reviews, review_score = df.iloc[n].values
-    new_steam_game = SteamGame(name, is_free, num_reviews, review_score)
-    db.session.add(new_steam_game)
-db.session.commit()
-# df.to_sql(name='steam_game', con=db.engine, if_exists="append", index=False)
-#--------------------------------------------------------------------------
+# loading data
+df = data_load()
 
 @app.route('/')
 def steam_game():
 
-    fig = px.bar(df, x="num_reviews", y="review_score", color="is_free", barmode="group")  #, color="is_free",    barmode="group")
+    fig = px.bar(df, x="num_reviews", y="review_score", color="is_free", barmode="group")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return render_template('index.html', graphJSON=graphJSON)
 

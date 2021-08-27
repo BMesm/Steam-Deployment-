@@ -2,8 +2,8 @@ import os
 import random
 import string
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 # ---pseudo random string used as secret key and anti forgery state token------
 state = ''.join(random.choice(string.ascii_uppercase + string.digits) for
