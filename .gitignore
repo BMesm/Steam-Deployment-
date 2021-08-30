@@ -2,7 +2,7 @@
 .vscode/
 # jupyter 
 .ipynb_checkpoints/
-*.ipynb
+#*.ipynb
 # python config
 __pycache__/
 # pycharm folder
