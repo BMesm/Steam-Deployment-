@@ -9,16 +9,13 @@ from flask import render_template, request
 # loading data
 df = data_load()
 
-@app.route('/')
-def steam_game():
-
-    fig = px.bar(df, x="num_reviews", y="review_score", color="is_free", barmode="group")
-    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('index.html', graphJSON=graphJSON)
-
 @app.route('/vizualisation')
 def vizualisation():
-   return render_template('vizualisation.html')
+    fig = px.bar(df, x="num_reviews", y="review_score", color="is_free", barmode="group")
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template('vizualisation.html', graphJSON=graphJSON)
+    
+ 
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
