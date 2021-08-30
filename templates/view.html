@@ -1,8 +1,12 @@
 {%extends "base.html"%}
 {% block title%}View All Games{% endblock%}
 {% block content%}
-    {% for item in values %}
+    
 <style>
+    table, th, td {
+        border: 1px solid black;
+        /* border-collapse: collapse; */
+    }
     .content-table {
         border-collapse: collapse;
         margin: 25px 0;
@@ -13,26 +17,50 @@
     }
 
     .content_table thead tr {
-        backroundcolor : #009879
+        background-color: #009879
+    }
 </style>
     <table class="content_table">
     <thead>
         <tr>
             <th>Name</th>
+            <th>Required_age</th>
             <th>Is Free</th>
             <th>Num Reviews</th>
             <th>Review Score</th>
+            <th>Genre</th>
+            <th>Developers</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Website</th>
+            <th>Windows</th>
+            <th>Mac</th>
+            <th>Linux</th>
+            <th>Categories</th>
         </tr>
     </thead>
     <tbody>
+        {% for item in values %}
         <tr class="active-row">
+            
             <td> {{item.name}}</td>
+            <td>{{item.required_age}}</td>
             <td> {{item.is_free}}</td>
             <td> {{item.num_reviews}}</td>
             <td> {{item.review_score}}</td>
+            <td>{{item.genres}}</td>
+            <td>{{item.developers}}</td>
+            <td>{{item.short_description}}</td>
+            <td>{{item.header_image}}</td>
+            <td>{{item.website}}</td>
+            <td>{{item.windows}}</td>
+            <td>{{item.mac}}</td>
+            <td>{{item.linux}}</td>
+            <td>{{item.categories}}</td>
         </tr>
+        {% endfor %}
     </tbody>
 </table>
-    {% endfor %}
+    
 {% endblock%}
 

@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from model import SteamGame, db
 
+#------------------------------ SOME CLEANING FUNCTIONS ---------------------
 def get_all_desc(x,key_name):
     try:
         str_list = ''
