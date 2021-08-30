@@ -30,15 +30,37 @@ class SteamGame(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
+    required_age = db.Column(db.Integer)
     is_free = db.Column(db.Boolean, nullable=False)
     num_reviews = db.Column(db.Integer, nullable=False)
     review_score = db.Column(db.Integer, nullable=False)
+    genres = db.Column(db.String(400))
+    developers = db.Column(db.String(400))
+    short_description = db.Column(db.Text)
+    header_image = db.Column(db.String(400))
+    website = db.Column(db.String(400))
+    windows = db.Column(db.Boolean)
+    mac = db.Column(db.Boolean)
+    linux = db.Column(db.Boolean)
+    categories = db.Column(db.String(400))
 
-    def __init__(self, name, is_free, num_reviews, review_score) -> None:
+    def __init__(self, name, required_age, is_free, num_reviews, review_score, 
+                 genres, developers, short_description, header_image, website, 
+                 windows, mac, linux, categories) -> None:
         self.name = name
+        self.required_age = required_age
         self.is_free = is_free
         self.num_reviews = num_reviews
         self.review_score = review_score
+        self.genres = genres
+        self.developers = developers
+        self.short_description = short_description
+        self.header_image = header_image
+        self.website = website
+        self.windows = windows
+        self.mac = mac
+        self.linux = linux
+        self.categories = categories
 
     def __repr__(self):
         """This method helps to easily print an instance of the class"""
