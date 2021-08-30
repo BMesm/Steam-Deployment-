@@ -21,7 +21,7 @@ def list_str(x):
 
 #----------------------------- Loading data ----------------------------
 def data_load():
-    df_original = pd.read_json("./database.json")
+    df = pd.read_json("./database.json")
     df = df.T
     df = df.reset_index().drop('index', axis=1)
     df = df[['name', 'required_age', 'is_free','review_score'
