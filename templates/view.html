@@ -1,0 +1,38 @@
+{%extends "base.html"%}
+{% block title%}View All Games{% endblock%}
+{% block content%}
+    {% for item in values %}
+<style>
+    .content-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .content_table thead tr {
+        backroundcolor : #009879
+</style>
+    <table class="content_table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Is Free</th>
+            <th>Num Reviews</th>
+            <th>Review Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="active-row">
+            <td> {{item.name}}</td>
+            <td> {{item.is_free}}</td>
+            <td> {{item.num_reviews}}</td>
+            <td> {{item.review_score}}</td>
+        </tr>
+    </tbody>
+</table>
+    {% endfor %}
+{% endblock%}
+

@@ -1,0 +1,24 @@
+{%extends "base.html"%}
+{% block title%}Search Games{% endblock%}
+{% block content%}
+    {% for item in searchtable %}
+    <table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Is Free</th>
+            <th>Num Reviews</th>
+            <th>Review Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="active-row">
+            <td> {{item.name}}</td>
+            <td> {{item.is_free}}</td>
+            <td> {{item.num_reviews}}</td>
+            <td> {{item.review_score}}</td>
+        </tr>
+    </tbody>
+</table>
+    {% endfor %}
+{% endblock %}
