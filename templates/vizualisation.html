@@ -1,24 +1,22 @@
 {%extends "base.html"%}
 {% block title%}Vizualisation{% endblock%}
 {% block content %}
- <h1>Hello Plotly (but not Dash)</h1>
-    <div id="chart" class="chart"></div>
-    {% if graphJSON %}
-    <html lang="en">
-      <head>
-          <meta charset="UTF-8">
-          <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Document</title>
-      </head>
-      <body>
-          <div class="chart"></div>
-          <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-          <script type="text/javascript">
-          var graphs = {{ graphJSON | safe }};
-          Plotly.plot('chart',graphs,{});
-          </script>
-      </body>
-      </html>
-    {% endif %}
+ <h1>Some Vizualisation</h1>
+    <!--First graph here-->
+    <div id="chart1" class="chart-center"></div>
+    <!--Second graph here-->
+    <div id="chart2" class="chart-center"></div>
+
+    <!-- plotly CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Inserting graphs into HTml using javascript -->
+    <script type="text/javascript">
+      //  First graph
+      var graph1 = {{ graph1 | safe }};
+      Plotly.plot('chart1', graph1, {});
+
+      // Second graph
+      var graph2 = {{ graph2 | safe }};
+      Plotly.plot('chart2', graph2, {});
+    </script>
 {% endblock %}

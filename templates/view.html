@@ -2,25 +2,7 @@
 {% block title%}View All Games{% endblock%}
 {% block content%}
     
-<style>
-    table, th, td {
-        border: 1px solid black;
-        /* border-collapse: collapse; */
-    }
-    .content-table {
-        border-collapse: collapse;
-        margin: 25px 0;
-        font-size: 0.9em;
-        font-family: sans-serif;
-        min-width: 400px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .content_table thead tr {
-        background-color: #009879
-    }
-</style>
-    <table class="content_table">
+<table class="content_table">
     <thead>
         <tr>
             <th>Name</th>
@@ -28,6 +10,7 @@
             <th>Is Free</th>
             <th>Num Reviews</th>
             <th>Review Score</th>
+            <th>Price</th>
             <th>Genre</th>
             <th>Developers</th>
             <th>Description</th>
@@ -40,7 +23,8 @@
         </tr>
     </thead>
     <tbody>
-        {% for item in values %}
+        <!-- Let's display only the first 100 rows -->
+        {% for item in values[:100] %}
         <tr class="active-row">
             
             <td> {{item.name}}</td>
@@ -48,6 +32,7 @@
             <td> {{item.is_free}}</td>
             <td> {{item.num_reviews}}</td>
             <td> {{item.review_score}}</td>
+            <td>{{item.price}}</td>
             <td>{{item.genres}}</td>
             <td>{{item.developers}}</td>
             <td>{{item.short_description}}</td>

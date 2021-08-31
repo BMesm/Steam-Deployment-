@@ -11,16 +11,20 @@ df = data_load()
 
 @app.route('/')
 def steam_game():
-
-    fig = px.bar(df, x="num_reviews", y="review_score", color="is_free", barmode="group")
-    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('index.html', graphJSON=graphJSON)
+    return render_template('index.html')
 
 @app.route('/vizualisation')
 def vizualisation():
-    fig = px.bar(df, x="num_reviews", y="review_score", color="is_free", barmode="group")
-    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('vizualisation.html', graphJSON=graphJSON)
+    # Bar plot
+    fig1 = px.bar(df, x="num_reviews", y="review_score", color="is_free", barmode="group")
+    fig1.update_layout(title_text='Bar Plot', title_x=0.5)
+    graph1JSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
+    # Scatter Plot
+    fig2 = px.scatter(df, x="num_reviews", y="review_score", color="is_free")
+    fig2.update_layout(title_text='Scatter Plot', title_x=0.5)
+    graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('vizualisation.html', graph1=graph1JSON, graph2=graph2JSON)
     
  
 
