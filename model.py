@@ -34,6 +34,7 @@ class SteamGame(db.Model):
     is_free = db.Column(db.Boolean, nullable=False)
     num_reviews = db.Column(db.Integer, nullable=False)
     review_score = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.String(400))
     genres = db.Column(db.String(400))
     developers = db.Column(db.String(400))
     short_description = db.Column(db.Text)
@@ -45,13 +46,14 @@ class SteamGame(db.Model):
     categories = db.Column(db.String(400))
 
     def __init__(self, name, required_age, is_free, num_reviews, review_score, 
-                 genres, developers, short_description, header_image, website, 
-                 windows, mac, linux, categories) -> None:
+                 price, genres, developers, short_description, header_image, 
+                 website, windows, mac, linux, categories) -> None:
         self.name = name
         self.required_age = required_age
         self.is_free = is_free
         self.num_reviews = num_reviews
         self.review_score = review_score
+        self.price = price
         self.genres = genres
         self.developers = developers
         self.short_description = short_description
@@ -64,4 +66,4 @@ class SteamGame(db.Model):
 
     def __repr__(self):
         """This method helps to easily print an instance of the class"""
-        return f"{self.name}"
+        return f"{self.name} - {self.price}"
