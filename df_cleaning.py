@@ -72,7 +72,7 @@ df_releasedate = pd.DataFrame([flatten_json(x) for x in df['release_date']])
 
 df_genres = df_genres[['0_id', '0_description', '1_id', '1_description',]]
 df_genres = df_genres.drop(columns = ["0_id","1_id"], axis = 1)
-df_genres = df_genres.rename(columns={"0_description": "primary_genre", "1_description": "secundary_genre"})
+df_genres = df_genres.rename(columns={"0_description": "primary_genre", "1_description": "secondary_genre"})
 
 ## Price
 df_price = df_price[['currency','final']]
@@ -84,7 +84,7 @@ df_categories = df_categories[['0_id', '0_description', '1_id', '1_description',
 df_categories = df_categories.drop(columns =["0_id","1_id","2_id","2_description",
                                              "3_id","3_description","4_id","4_description"])
 
-df_categories = df_categories.rename(columns={"0_description": "primary_category", "1_description": "secundary_category"})
+df_categories = df_categories.rename(columns={"0_description": "primary_category", "1_description": "secondary_category"})
 
 ## Screenshots
 df_screenshots = df_screenshots[['0_path_full']]
