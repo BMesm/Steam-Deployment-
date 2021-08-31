@@ -1,8 +1,8 @@
-"""First Migrations
+"""up
 
-Revision ID: 3a0589507e70
+Revision ID: 3bb1bd3e0003
 Revises: 
-Create Date: 2021-08-31 04:44:18.261520
+Create Date: 2021-08-31 16:22:17.088433
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3a0589507e70'
+revision = '3bb1bd3e0003'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,16 +25,25 @@ def upgrade():
     sa.Column('is_free', sa.Boolean(), nullable=False),
     sa.Column('num_reviews', sa.Integer(), nullable=False),
     sa.Column('review_score', sa.Integer(), nullable=False),
-    sa.Column('price', sa.String(length=400), nullable=True),
-    sa.Column('genres', sa.String(length=400), nullable=True),
+    sa.Column('primary_genre', sa.String(length=400), nullable=True),
+    sa.Column('secondary_genre', sa.String(length=400), nullable=True),
+    sa.Column('currency', sa.String(length=400), nullable=True),
+    sa.Column('price', sa.Float(precision=400), nullable=True),
+    sa.Column('primary_category', sa.String(length=400), nullable=True),
+    sa.Column('secondary_category', sa.String(length=400), nullable=True),
+    sa.Column('link', sa.String(length=400), nullable=True),
     sa.Column('developers', sa.String(length=400), nullable=True),
     sa.Column('short_description', sa.Text(), nullable=True),
-    sa.Column('header_image', sa.String(length=400), nullable=True),
     sa.Column('website', sa.String(length=400), nullable=True),
     sa.Column('windows', sa.Boolean(), nullable=True),
     sa.Column('mac', sa.Boolean(), nullable=True),
     sa.Column('linux', sa.Boolean(), nullable=True),
-    sa.Column('categories', sa.String(length=400), nullable=True),
+    sa.Column('pc_minimum', sa.String(length=400), nullable=True),
+    sa.Column('pc_recommended', sa.String(length=400), nullable=True),
+    sa.Column('mac_minimum', sa.String(length=400), nullable=True),
+    sa.Column('mac_recommended', sa.String(length=400), nullable=True),
+    sa.Column('linux_minimum', sa.String(length=400), nullable=True),
+    sa.Column('linux_recommended', sa.String(length=400), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

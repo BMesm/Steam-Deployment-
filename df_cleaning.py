@@ -65,6 +65,8 @@ df_genres = df_genres.rename(columns={"0_description": "primary_genre", "1_descr
 
 ## Price
 df_price = df_price[['currency','final']]
+df_price['final']=df_price['final']/100
+df_price = df_price.rename(columns={'final':'price'})
 
 ## Categories
 df_categories = df_categories[['0_id', '0_description', '1_id', '1_description', '2_id',
@@ -77,7 +79,7 @@ df_categories = df_categories.rename(columns={"0_description": "primary_category
 
 ## Screenshots
 df_screenshots = df_screenshots[['0_path_full']]
-df_screenshots = df_screenshots.rename(columns={"0_path_full": "link"})
+df_screenshots = df_screenshots.rename(columns={"0_path_full": "screenshot"})
 
 ## Windows/Linux/Mac Platform
 df_pc['minimum'] =  df_pc['minimum'].str.replace(r"<[^>]*>","")
@@ -100,12 +102,24 @@ df_linux = df_linux.rename(columns={"minimum": "linux_minimum", "recommended": "
 
 ## Release Date
 
-df_releasedate = df_releasedate.drop(columns = ["coming_soon"])
+df_releasedate["dates"] = pd.to_datetime(df_releasedate["date"], format='%d %b, %Y',errors='coerce')
+mask = df_releasedate.dates.isnull()
+print(df_releasedate.dates.isnull().sum())
+df_releasedate.loc[mask,'dates'] = pd.to_datetime(df_releasedate[mask]['date'],format='%b %Y',errors='coerce')
+mask = df_releasedate.dates.isnull()
+print(df_releasedate.dates.isnull().sum())
+df_releasedate.loc[mask,'dates'] = pd.to_datetime(df_releasedate[mask]['date'],format='%b %d, %Y',errors='coerce')
+df_releasedate = df_releasedate.drop(["date","coming_soon"], axis=1)
 
 ## Concact DF's
-frames = [df_genres,df_price,df_categories,df_screenshots,df_platforms,df_pc,df_mac,df_linux,df_releasedate]
+df1 = df[['name','required_age','developers','website','is_free','num_reviews','review_score']]
+frames = [df1,df_genres,df_price,df_categories,df_screenshots,df_platforms,
+        df_pc,df_mac,df_linux,df_releasedate]
 
-for frame in frames:
-    df = pd.concat([df, frame], axis=1)
+df = pd.concat(frames, axis=1)
 
-df = df.drop("date", axis=1)
+
+print(df.columns)
+print(df.head())
+print(df.info())
+
