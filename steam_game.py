@@ -24,7 +24,12 @@ def vizualisation():
     fig2.update_layout(title_text='Scatter Plot', title_x=0.5)
     graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
 
-    return render_template('vizualisation.html', graph1=graph1JSON, graph2=graph2JSON)
+    fig3 = px.histogram(df, x="is_free")
+    fig3.update_layout(title_text='Count Plot', title_x=0.5)
+    graph3JSON = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('vizualisation.html', graph1=graph1JSON, graph2=graph2JSON,
+                                                graph3=graph3JSON)
     
  
 
@@ -44,4 +49,4 @@ def view():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT",5000))
-    app.run(debug=True, port=port)
+    app.run(debug=True, port=port, host='0.0.0.0')
