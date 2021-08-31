@@ -1,0 +1,21 @@
+table, th, td {
+    border: 1px solid black;
+    /* border-collapse: collapse; */
+}
+.content-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content_table thead tr {
+    background-color: #009879
+}
+
+.chart-center {
+    margin-left: 15%;
+    margin-right: 15%;
+}
