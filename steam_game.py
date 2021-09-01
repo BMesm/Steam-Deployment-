@@ -7,7 +7,7 @@ from loading_data import data_load
 from flask import render_template, request
 
 # loading data
-df = data_load()
+df, df1, df2 = data_load()
 
 @app.route('/')
 def steam_game():
@@ -31,8 +31,6 @@ def vizualisation():
     return render_template('vizualisation.html', graph1=graph1JSON, graph2=graph2JSON,
                                                 graph3=graph3JSON)
     
- 
-
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
