@@ -62,16 +62,11 @@ if __name__ == '__main__':
     df = df.reset_index().drop('index', axis=1)
     df['required_age'] = df['required_age'].apply(lambda x: str(x))
     df['developers'] = df['developers'].apply(list_str)
+    df['genres'] = df['genres'].apply(get_all_desc, key_name=('description'))
+    df['categories'] = df['categories'].apply(get_all_desc, key_name=('description'))
 
-    ### Creating the columns
-
-    df_genres = pd.DataFrame([flatten_json(x) for x in df['genres']])
 
     df_price = pd.DataFrame([flatten_json(x) for x in df['price_overview']])
-
-    df_categories = pd.DataFrame([flatten_json(x) for x in df['categories']])
-
-    df_screenshots = pd.DataFrame([flatten_json(x) for x in df['screenshots']])
 
     df_platforms = pd.DataFrame([flatten_json(x) for x in df['platforms']])
 
@@ -85,29 +80,10 @@ if __name__ == '__main__':
 
     #### Editing the columns
 
-    ## Genres
-
-    df_genres = df_genres[['0_id', '0_description', '1_id', '1_description',]]
-    df_genres = df_genres.drop(columns = ["0_id","1_id"], axis = 1)
-    df_genres = df_genres.rename(columns={"0_description": "primary_genre", "1_description": "secondary_genre"})
-
     ## Price
     df_price = df_price[['currency','final']]
     df_price['final']=df_price['final']/100
     df_price = df_price.rename(columns={'final':'price'})
-
-    ## Categories
-    df_categories = df_categories[['0_id', '0_description', '1_id', '1_description', '2_id',
-        '2_description', '3_id', '3_description', '4_id', '4_description']]
-
-    df_categories = df_categories.drop(columns =["0_id","1_id","2_id","2_description",
-                                                "3_id","3_description","4_id","4_description"])
-
-    df_categories = df_categories.rename(columns={"0_description": "primary_category", "1_description": "secondary_category"})
-
-    """     ## Screenshots
-    df_screenshots = df_screenshots[['0_path_full']]
-    df_screenshots = df_screenshots.rename(columns={"0_path_full": "link"}) """
 
     ## Windows/Linux/Mac Platform
     df_pc['minimum'] =  df_pc['minimum'].str.replace(r"<[^>]*>","")
@@ -140,29 +116,40 @@ if __name__ == '__main__':
     df_releasedate = df_releasedate.drop(["date","coming_soon"], axis=1)
 
     ## Concact DF's
-    df1 = df[['name','required_age','developers','website','is_free','num_reviews','review_score','header_image','short_description']]
-    frames = [df1,df_genres,df_price,df_categories,df_screenshots,df_platforms,
-            df_pc,df_mac,df_linux,df_releasedate]
+    df1 = df[['name','required_age','developers','website','is_free','num_reviews','review_score','header_image','short_description', 'genres', 'categories']]
+    frames = [df1,df_price,df_platforms,df_pc,df_mac,df_linux,df_releasedate]
 
     df = pd.concat(frames, axis=1)
 
 
     # Selecting most important columns
-    df = df[['name', 'required_age', 'developers', 'website', 'is_free',
-       'num_reviews', 'review_score', 'primary_genre', 'secondary_genre',
-       'currency', 'price', 'primary_category', 'secondary_category',
-       'header_image', 'windows', 'mac', 'linux', 'pc_minimum', 'pc_recommended',
-       'mac_minimum', 'mac_recommended', 'linux_minimum', 'linux_recommended','short_description']]
-    print("dataframe rows: ", df.shape)
-    for n in range(len(df)):
-        name, required_age, developers, website, is_free, num_reviews, review_score,primary_genre,secondary_genre, currency, price, primary_category,secondary_category, link, windows, mac,linux, pc_minimum, pc_recommended, mac_minimum, mac_recommended, linux_minimum, linux_recommended,short_description = df.iloc[n].values
-        new_steam_game = SteamGame(name, required_age, developers, website, is_free, num_reviews, 
-        review_score,primary_genre, secondary_genre, currency, price, primary_category,
-        secondary_category, link, windows, mac,linux, pc_minimum, pc_recommended, mac_minimum,
-        mac_recommended, linux_minimum, linux_recommended,short_description)
-        db.session.add(new_steam_game)
-    db.session.commit()
+    main_table = df[['name', 'required_age', 'developers', 'website', 'is_free',
+       'num_reviews', 'review_score', 'genres', 'categories', 'header_image', 'windows', 'mac', 'linux', 'short_description']]
+    
+    price_table =df[['currency', 'price']]
 
+    requirement_table = df[['pc_minimum', 'pc_recommended',
+       'mac_minimum', 'mac_recommended', 'linux_minimum', 'linux_recommended']]
+
+
+    for n in range(len(main_table)):
+        name, required_age, developers, website, is_free, num_reviews, review_score,genres, categories, link, windows, mac,linux, short_description = main_table.iloc[n].values
+        new_steam_game = SteamGame(name, required_age, developers, website, is_free, num_reviews, 
+        review_score, genres, categories, link, windows, mac,linux, short_description)
+        db.session.add(new_steam_game)
+
+    for n in range(len(price_table)):
+        currency, price = price_table.iloc[n].values
+        new_steam_game = Price(currency, price)
+        db.session.add(new_steam_game)
+
+    for n in range(len(requirement_table)):
+        pc_minimum, pc_recommended, mac_minimum, mac_recommended, linux_minimum, linux_recommended = requirement_table.iloc[n].values
+        new_price_table = Requirement(pc_minimum, pc_recommended, mac_minimum,
+        mac_recommended, linux_minimum, linux_recommended,)
+        db.session.add(new_steam_game)
+
+    db.session.commit()
     # df.to_sql(name='steam_game', con=db.engine, if_exists="append", index=False)
     print("database rows: ", len(SteamGame.query.all()))
     print("done")
