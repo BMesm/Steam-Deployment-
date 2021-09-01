@@ -11,9 +11,6 @@ df = data_load()
 
 @app.route('/')
 def steam_game():
-    < img
-    src = "{{url_for('visuals', filename='store_home_share.jpg')}}"
-    align = "middle" / >
     return render_template('index.html')
 
 @app.route('/vizualisation')
