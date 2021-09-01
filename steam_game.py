@@ -17,7 +17,7 @@ def steam_game():
 def vizualisation():
     # Bar plot
     fig1 = px.bar(df, x="num_reviews", y="review_score", color="is_free", barmode="group")
-    fig1.update_layout(title_text='Bar Plot', title_x=0.5)
+    fig1.update_layout(title_text='Relationship between between number of reviews and their score', title_x=0.5)
     graph1JSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
     # Scatter Plot
     fig2 = px.scatter(df, x="num_reviews", y="review_score", color="is_free")
@@ -25,7 +25,7 @@ def vizualisation():
     graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
 
     fig3 = px.histogram(df, x="is_free")
-    fig3.update_layout(title_text='Count Plot', title_x=0.5)
+    fig3.update_layout(title_text='Amount of free and paid games', title_x=0.5)
     graph3JSON = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
 
     return render_template('vizualisation.html', graph1=graph1JSON, graph2=graph2JSON,
