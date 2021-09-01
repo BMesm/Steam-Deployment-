@@ -1,7 +1,7 @@
 import json
 import re
 import pandas as pd
-from model import SteamGame, db, Price, Requirement
+from model import SteamGame, db, Price
 
 #------------------------------ SOME CLEANING FUNCTIONS ---------------------
 #to get several description
@@ -82,23 +82,23 @@ df_price['final']=df_price['final']/100
 df_price = df_price.rename(columns={'final':'price'})
 
 ## Windows/Linux/Mac Platform
-df_pc['minimum'] =  df_pc['minimum'].str.replace(r"<[^>]*>","")
+# df_pc['minimum'] =  df_pc['minimum'].str.replace(r"<[^>]*>","")
 
-df_pc['recommended'] =  df_pc['recommended'].str.replace(r"<[^>]*>","")
+# df_pc['recommended'] =  df_pc['recommended'].str.replace(r"<[^>]*>","")
 
-df_pc = df_pc.rename(columns={"minimum": "pc_minimum", "recommended": "pc_recommended"})
+# df_pc = df_pc.rename(columns={"minimum": "pc_minimum", "recommended": "pc_recommended"})
 
-df_mac['minimum'] =  df_mac['minimum'].str.replace(r"<[^>]*>","")
+# df_mac['minimum'] =  df_mac['minimum'].str.replace(r"<[^>]*>","")
 
-df_mac['recommended'] =  df_mac['recommended'].str.replace(r"<[^>]*>","")
+# df_mac['recommended'] =  df_mac['recommended'].str.replace(r"<[^>]*>","")
 
-df_mac = df_mac.rename(columns={"minimum": "mac_minimum", "recommended": "mac_recommended"})
+# df_mac = df_mac.rename(columns={"minimum": "mac_minimum", "recommended": "mac_recommended"})
 
-df_linux['minimum'] =  df_linux['minimum'].str.replace(r"<[^>]*>","")
+# df_linux['minimum'] =  df_linux['minimum'].str.replace(r"<[^>]*>","")
 
-df_linux['recommended'] =  df_linux['recommended'].str.replace(r"<[^>]*>","")
+# df_linux['recommended'] =  df_linux['recommended'].str.replace(r"<[^>]*>","")
 
-df_linux = df_linux.rename(columns={"minimum": "linux_minimum", "recommended": "linux_recommended"})
+# df_linux = df_linux.rename(columns={"minimum": "linux_minimum", "recommended": "linux_recommended"})
 
 ## Release Date
 
@@ -118,24 +118,23 @@ frames = [df1,df_price,df_platforms,df_pc,df_mac,df_linux,df_releasedate]
 df = pd.concat(frames, axis=1)
 
 # Selecting most important columns
-main_table = df[['name', 'required_age', 'is_free','num_reviews', 'review_score', 'header_image',
+main_table = df[['name', 'required_age', 'is_free','num_reviews', 'review_score', 'header_image','price',
                  'genres', 'categories', 'developers', 'short_description', 'website', 'windows', 'mac', 'linux']]
     
 price_table =df[['currency', 'price']]
 
-requirement_table = df[['pc_minimum', 'pc_recommended', 'mac_minimum',
-                        'mac_recommended', 'linux_minimum', 'linux_recommended']]
+# requirement_table = df[['pc_minimum', 'pc_recommended', 'mac_minimum',
+#                         'mac_recommended', 'linux_minimum', 'linux_recommended']]
 
 def data_load():
-    return main_table, price_table, requirement_table
+    return main_table, price_table
 
 if __name__ == '__main__':
 #----------------------- Inserting into SQLite database -------------------
     # df.to_sql(name='steam_game', con=db.engine, if_exists="append", index=False)
     for n in range(len(main_table)):
-        name, required_age,  is_free, num_reviews, review_score,header_image,genres, categories, developers, short_description, website, windows, mac,linux = main_table.iloc[n].values
-        new_steam_game = SteamGame(name, required_age, is_free, num_reviews, review_score, header_image, genres, 
-                                   categories, developers, short_description, website, windows, mac, linux)
+        name, required_age,  is_free, num_reviews, review_score,header_image, price, genres, categories, developers, short_description, website, windows, mac,linux = main_table.iloc[n].values
+        new_steam_game = SteamGame(name, required_age, is_free, num_reviews, review_score, header_image, price, genres, categories, developers, short_description, website, windows, mac, linux)
         db.session.add(new_steam_game)
     db.session.commit()
 
@@ -145,19 +144,19 @@ if __name__ == '__main__':
         db.session.add(new_steam_game)
     db.session.commit()
 
-    for n in range(len(requirement_table)):
-        pc_minimum, pc_recommended, mac_minimum, mac_recommended, linux_minimum, linux_recommended = requirement_table.iloc[n].values
-        new_price_table = Requirement(pc_minimum, pc_recommended, mac_minimum,
-        mac_recommended, linux_minimum, linux_recommended,)
-        db.session.add(new_steam_game)
-    db.session.commit()
+    # for n in range(len(requirement_table)):
+    #     pc_minimum, pc_recommended, mac_minimum, mac_recommended, linux_minimum, linux_recommended = requirement_table.iloc[n].values
+    #     new_price_table = Requirement(pc_minimum, pc_recommended, mac_minimum,
+    #     mac_recommended, linux_minimum, linux_recommended,)
+    #     db.session.add(new_steam_game)
+    # db.session.commit()
 
     # Checking if the insertion went well
     print("Main Dataframe: ", main_table.shape)
     print("SteamGame rows: ", len(SteamGame.query.all()))
     print("Price Dataframe: ", price_table.shape)
     print("Price rows: ", len(Price.query.all()))
-    print("Requirement Dataframe: ", requirement_table.shape)
-    print("Requirement rows: ", len(Requirement.query.all()))
+    # print("Requirement Dataframe: ", requirement_table.shape)
+    # print("Requirement rows: ", len(Requirement.query.all()))
     print("done")
 #--------------------------------------------------------------------------

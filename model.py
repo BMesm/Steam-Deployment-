@@ -36,6 +36,7 @@ class SteamGame(db.Model):
     num_reviews = db.Column(db.Integer, nullable=False)
     review_score = db.Column(db.Integer, nullable=False)
     header_image = db.Column(db.String(400))
+    price = db.Column(db.Float)
     genres = db.Column(db.String(400))
     categories = db.Column(db.String(400))
     developers = db.Column(db.String(400))
@@ -48,9 +49,9 @@ class SteamGame(db.Model):
     # This connect SteamGame to Price
     # So we can access price from SteamGame
     prices = db.relationship('Price', lazy=True)
-    requirements = db.relationship('Requirement', lazy=True)
+    # requirements = db.relationship('Requirement', lazy=True)
 
-    def __init__(self, name, required_age,  is_free, num_reviews, review_score, header_image, 
+    def __init__(self, name, required_age,  is_free, num_reviews, review_score, header_image,price, 
                 genres, categories, developers, short_description, website, windows, mac,linux) -> None:
         self.name = name
         self.required_age = required_age
@@ -58,6 +59,7 @@ class SteamGame(db.Model):
         self.num_reviews = num_reviews
         self.review_score = review_score
         self.header_image = header_image
+        self.price = price
         self.genres = genres
         self.categories = categories
         self.developers = developers
@@ -88,26 +90,26 @@ class Price(db.Model):
         self.price = price
 
 
-class Requirement(db.Model):
-    """This class represents a table requirement in the database
-    """
-    __tablename__ = 'requirement'
+# class Requirement(db.Model):
+#     """This class represents a table requirement in the database
+#     """
+#     __tablename__ = 'requirement'
 
-    id = db.Column(db.Integer, primary_key=True)
-    pc_minimum = db.Column(db.String(400))
-    pc_recommended = db.Column(db.String(400))
-    mac_minimum = db.Column(db.String(400))
-    mac_recommended = db.Column(db.String(400))
-    linux_minimum = db.Column(db.String(400))
-    linux_recommended = db.Column(db.String(400))
-    # Connecting Requirement to SteamGame with a ForeignKey
-    game_id = db.Column(db.Integer, db.ForeignKey('steam_game.id'))
+#     id = db.Column(db.Integer, primary_key=True)
+#     pc_minimum = db.Column(db.String(400))
+#     pc_recommended = db.Column(db.String(400))
+#     mac_minimum = db.Column(db.String(400))
+#     mac_recommended = db.Column(db.String(400))
+#     linux_minimum = db.Column(db.String(400))
+#     linux_recommended = db.Column(db.String(400))
+#     # Connecting Requirement to SteamGame with a ForeignKey
+#     game_id = db.Column(db.Integer, db.ForeignKey('steam_game.id'))
 
-    def __init__(self, pc_minimum, pc_recommended, mac_minimum,
-                mac_recommended, linux_minimum, linux_recommended) -> None:
-        self.pc_minimum = pc_minimum
-        self.pc_recommended = pc_recommended
-        self.mac_minimum = mac_minimum
-        self.mac_recommended = mac_recommended
-        self.linux_minimum = linux_minimum
-        self.linux_recommended = linux_recommended
+#     def __init__(self, pc_minimum, pc_recommended, mac_minimum,
+#                 mac_recommended, linux_minimum, linux_recommended) -> None:
+#         self.pc_minimum = pc_minimum
+#         self.pc_recommended = pc_recommended
+#         self.mac_minimum = mac_minimum
+#         self.mac_recommended = mac_recommended
+#         self.linux_minimum = linux_minimum
+#         self.linux_recommended = linux_recommended
