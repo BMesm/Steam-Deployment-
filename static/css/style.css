@@ -19,3 +19,9 @@ table, th, td {
     margin-left: 15%;
     margin-right: 15%;
 }
+.home-image {
+    width: 100%;
+}
+h1 {
+    text-align: center;
+}

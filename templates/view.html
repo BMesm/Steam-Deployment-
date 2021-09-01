@@ -10,12 +10,11 @@
             <th>Is Free</th>
             <th>Num Reviews</th>
             <th>Review Score</th>
-            <th>Price</th>
             <th>Genre</th>
+            <th>Image</th>
+            <th>Price</th>
             <th>Developers</th>
             <th>Description</th>
-            <th>Image</th>
-            <th>Website</th>
             <th>Windows</th>
             <th>Mac</th>
             <th>Linux</th>
@@ -24,20 +23,18 @@
     </thead>
     <tbody>
         <!-- Let's display only the first 100 rows -->
-        {% for item in values[:100] %}
+        {% for item in games[:100] %}
         <tr class="active-row">
-            
-            <td> {{item.name}}</td>
+            <td> <a href="{{item.website}}">{{item.name}}</a></td>
             <td>{{item.required_age}}</td>
             <td> {{item.is_free}}</td>
             <td> {{item.num_reviews}}</td>
             <td> {{item.review_score}}</td>
-            <td>{{item.price}}</td>
             <td>{{item.genres}}</td>
+            <td><img src="{{item.header_image}}" alt=""></td>
+            <td>{{item.price}}</td>
             <td>{{item.developers}}</td>
-            <td>{{item.short_description}}</td>
-            <td>{{item.header_image}}</td>
-            <td>{{item.website}}</td>
+            <td >{{item.short_description}}</td>
             <td>{{item.windows}}</td>
             <td>{{item.mac}}</td>
             <td>{{item.linux}}</td>
