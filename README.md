@@ -7,7 +7,7 @@ The aim of this project is to be able to properly deploy scrapped data from the 
 The data set was provided in a Json format. Because of this was required to converted in a cleaned way, to SQL. To do this purpose first it was needed to convert it into a pandas dataframe, and unravel all the nested dictionaries inside of the columns. Then, with the help of sqlalchemy we populated a table to format SQL. Futhermore we built relashions between the main table and an adjacent one, namely price.
 With this we could deploy locally, with flaskmigrate, two plots related to this data set, as well as the table itself.
 It was used some HTML code to make the website more user friendly and appealing.
-We also scrapped more then 4000 url's from each game in order to add more information about them. In a second fase, we were able to futher gather information over 2000.
+We also scrapped more then 40000 url's from each game in order to add more information about them. In a second fase, we were able to futher gather information over 3000.
 Finally in order to bring our work to the world we exposed it with Heroku, with the following web link: steam4u.herokuapp.com .
 
 
