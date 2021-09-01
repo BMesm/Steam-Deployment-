@@ -20,6 +20,7 @@ Finally in order to bring our work to the world we exposed it with Heroku, with 
 
 ## Databases 
 The data was scrapped from the Steam website. It can be founded on it's raw format on the following link: https://raw.githubusercontent.com/becodeorg/GNT-Arai-2.31/master/content/additional_resources/datasets/steam%20scrape/database.json?token=AUDYUGADWYEEUMWSRLY7VOLBHB5CI .
+
 Regarding the SQL format, the data can be found on this link: http://steam4u.herokuapp.com/view .
 
 
