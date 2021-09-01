@@ -1,46 +1,99 @@
 import requests
 from bs4 import BeautifulSoup
-import json
 import csv
+import json
 import pandas as pd
 import time
+import re
+import os
 
-url = 'https://store.steampowered.com/search/results/?query&start=0&count=100&dynamic_data=&sort_by=_ASC&snr=1_7_7_230_7&infinite=1'
-
-def totalresults(url):
-    r = requests.get(url)
-    data = dict(r.json())
-    totalresults = data['total_count']
-    return int(totalresults)
-
+basedir = os.path.abspath(os.path.dirname(__file__))
+excepted_link={'out':0,'genre':0,'name':0,'lang':0}
 def get_data(url):
     r = requests.get(url)
-    data = dict(r.json())
-    return data['results_html']
+    return BeautifulSoup(r.content, 'html.parser')
 
-def parse(data):
-    gameslist = []
-    soup = BeautifulSoup(data, 'html.parser')
-    games = soup.find_all('a')
-    for game in games:
-        game_url = game.get('href')
-        gameslist.append(game_url)
-    return gameslist
 
 def output(results):
+    try:
+        with open(os.path.join(basedir, 'data_game.json'), 'a') as f:
+            json.dump(results, f, indent=4)
+        print("Created Json File")
+    except:
+        excepted_link['out'] += 1
+        print(excepted_link)
+        pass
 
-    with open("games_url.csv","a",newline='') as f:
-        write = csv.writer(f,dialect='excel',delimiter=';')
-        write.writerows([url] for url in results)
-    print('Fin. Saved to CSV')
+def parse(data):
+    gamedata = {}
+    gamedata['name'] = get_name(data)
+    gamedata['genre_dev_date'] = get_genre_dev_date(data)
+    gamedata['languages'] = get_languages(data)
+    return gamedata
 
-    return
+def get_genre_dev_date(data):
+    try:
+        find = data.find('div',{'id': 'genresAndManufacturer'})
+        key = ''
+        l = ''
+        genre_dev_date = {}
+        for i in find.findAll(['a','b']):    
+            text = i.text
+            if text == 'Title:':
+                continue
+            elif ':' in text:
+                    genre_dev_date[key]=l
+                    key = text[:-1]
+                    l = []
+            else:
+                l.append(text)
+        del genre_dev_date['']
+        return genre_dev_date
+    except:
+        excepted_link['genre'] += 1
+        print(excepted_link)
+        pass
 
-results = []
-for x in range(0, totalresults(url), 100):
-    data = get_data(f'https://store.steampowered.com/search/results/?query&start={x}&count=100&dynamic_data=&sort_by=_ASC&snr=1_7_7_230_7&infinite=1')
-    output(parse(data))
-    print('Results Scraped: ', x)
-    time.sleep(0)
+def get_languages(data):
+    try:
+        find = data.find('div',{'id': 'languageTable'})
+        key = ''
+        l = []
+        languages = {'language':['Interface','Full_Audio','Subtitles']}
+        for i in find.findAll('td'):
+            text = i.text
+            if len(text)>3:
+                text = re.sub("[\\r]|[\\n]|[\\t]","",text)
+                languages[key] = l
+                key = text
+                l = []
+            elif "✔" in text:
+                l.append(True)
+            else:
+                l.append(False)
+        del languages['']
+        return languages
+    except:
+        excepted_link['lang'] += 1
+        print(excepted_link)
+        pass
 
-output(results)
+def get_name(data):
+    try:
+        find = data.find('div',{'class':'apphub_AppName'})
+        return find.text
+    except:
+        excepted_link['name'] += 1
+        print(excepted_link)
+        pass
+
+if __name__ == '__main__':
+    df = pd.read_csv(os.path.join(basedir, 'games_url.csv'))
+    links = list(df['url'])
+    for index in range(352,len(links)):
+        data = get_data(links[index])
+        output(parse(data))
+
+        print('Results Scraped: ', index)
+        time.sleep(0)
+    #output(results)
