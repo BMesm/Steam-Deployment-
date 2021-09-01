@@ -1,7 +1,16 @@
 table, th, td {
-    border: 1px solid white;
-    /* border-collapse: collapse; */
+    text-align: center;
+    /* border: 1px solid white;
+    border-collapse: collapse; */
 }
+th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+
 .content-table {
     border-collapse: collapse;
     margin: 25px 0;
@@ -12,7 +21,11 @@ table, th, td {
 }
 
 .content_table thead tr {
-    background-color: #009879;
+    background-color: #224574;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 .chart-center {
@@ -25,7 +38,10 @@ table, th, td {
 h1 {
     text-align: center;
 }
-td {
-    background-image: url('./../images/background_image.png');
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(29, 29, 29, 0.8)),
+                    url('./../images/background_image.png');
+    background-attachment: fixed;
+    background-size: 100%;
     color: white;
 }
