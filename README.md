@@ -41,7 +41,6 @@ Regarding the SQL format, the data can be found on this link: http://steam4u.her
 | static          | Folder with the files to be used in the html templates. |
 |templates                | html code|
 |.gitignore     | Contains name of files to be ignored in the repository. |
-| visuals            | Folder containing plots that are interesting and helped to bring insight as well as appealing pictures.  |
 |data.db    | sql tabel|
 | df_cleaning.py       | python file with code that cleans the dataframe |
 |Dockerfile  |Docker file with code to build an image.|
