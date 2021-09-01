@@ -3,6 +3,7 @@ import json
 import plotly
 import plotly.express as px
 from model import *
+from random import shuffle
 from loading_data import data_load
 from flask import render_template, request
 
@@ -42,7 +43,9 @@ def search():
 
 @app.route("/view")
 def view():
-    return render_template("view.html", games=SteamGame.query.all(), prices=Price.query.all())
+    games=SteamGame.query.all()
+    shuffle(games)
+    return render_template("view.html", games=games)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT",5000))
