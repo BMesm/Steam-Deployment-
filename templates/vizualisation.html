@@ -7,7 +7,7 @@
     <!--Second graph here-->
     <div id="chart2" class="chart-center"></div>
     <!--Third graph here-->
-    <div id="chart3" class="chart-center"></div>
+    <!-- <div id="chart3" class="chart-center"></div> -->
 
     <!-- plotly CDN -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -22,7 +22,7 @@
       Plotly.plot('chart2', graph2, {});
 
       // Third graph
-      var graph3 = {{ graph3 | safe }};
-      Plotly.plot('chart3', graph3, {});
+      // var graph3 = {{ graph3 | safe }};
+      // Plotly.plot('chart3', graph3, {});
     </script>
 {% endblock %}
